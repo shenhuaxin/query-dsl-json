@@ -1,0 +1,10 @@
+{
+  "from": "T_ADS_DIM_APP_DATA",
+  "query": {
+    "$not": {
+      "IND_CODE": {
+        "$ne": "CH002007006012"
+      }
+    }
+  }
+}
