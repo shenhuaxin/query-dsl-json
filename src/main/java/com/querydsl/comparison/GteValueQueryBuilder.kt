@@ -31,6 +31,12 @@ class GteValueQueryBuilder(field:String, value:Any): ValueQueryBuilder() {
         }
     }
 
+    override fun toSql(params: MutableMap<Int, Any>): String {
+        var id = params.size + 1
+        params[id] = value
+        return "$field >= \${${id}}"
+    }
+
     override fun toString(): String {
         if (value is String) {
             return "${field} >= '${value}'"

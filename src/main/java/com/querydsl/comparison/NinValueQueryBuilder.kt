@@ -33,6 +33,21 @@ class NinValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBui
         }
     }
 
+    override fun toSql(params: MutableMap<Int, Any>): String {
+        var inSql = StringBuilder()
+        inSql.append("$field not in (")
+        for (i in values.indices) {
+            var id = params.size + 1
+            params[id] = values[i]
+            inSql.append("\${${id}}")
+            if (i != values.size - 1) {
+                inSql.append(",")
+            }
+        }
+        inSql.append(")")
+        return inSql.toString()
+    }
+
     override fun toString(): String {
         return "${field} not in (" + values.reduce { a, b ->
             var sb = StringBuilder()

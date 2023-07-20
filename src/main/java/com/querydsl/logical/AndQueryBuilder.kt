@@ -25,6 +25,10 @@ class AndQueryBuilder() : CompositeCondition() {
         }
     }
 
+    override fun toSql(params: MutableMap<Int, Any>): String {
+        return "("+ queryBuilders.map { it.toSql(params) }.reduce{ a, b -> "$a and $b" } + ")"
+    }
+
     override fun toString(): String {
         return "("+ queryBuilders.map { it.toString() }.reduce{ a, b -> "$a and $b" } + ")"
     }

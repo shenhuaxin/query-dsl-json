@@ -1,11 +1,13 @@
 package com.querydsl;
 
+import cn.hutool.core.util.StrUtil
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken;
 
 class SearchBuilder {
 
+    val DETECT_SQL_INJECTION_REGEX = "/('(''|[^'])*')|(;)|(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)/i"
     var select: String? = null;
     var table: String? = null;
     var queryBuilders: QueryBuilders? = null;
@@ -41,7 +43,7 @@ class SearchBuilder {
     }
 
     private fun from(table: String) {
-        this.table = table;
+        this.table = StrUtil.cleanBlank(table)
     }
 
     private fun select(fields: String) {
@@ -50,6 +52,14 @@ class SearchBuilder {
 
     override fun toString(): String {
         return "${toSelect()} ${toFrom()} where ${queryBuilders.toString()}"
+    }
+
+    fun toSql(params: MutableMap<Int, Any>): String {
+        if (queryBuilders != null) {
+            return "${toSelect()} ${toFrom()} where ${queryBuilders?.toSql(params)}"
+        } else {
+            return "${toSelect()} ${toFrom()}"
+        }
     }
 
     private fun toFrom(): String {

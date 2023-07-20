@@ -24,6 +24,10 @@ class NotQueryBuilder: IQueryBuilder {
         }
     }
 
+    override fun toSql(params: MutableMap<Int, Any>): String {
+        return "not (${queryBuilder?.toSql(params)})"
+    }
+
     override fun toString(): String {
         return "not (${queryBuilder.toString()})"
     }

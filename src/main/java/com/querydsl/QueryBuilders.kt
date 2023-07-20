@@ -33,4 +33,13 @@ class QueryBuilders {
         return andQueryBuilder.toString()
     }
 
+    fun toSql(params: MutableMap<Int, Any>): String {
+        if (queryBuilders.size > 1) {
+            var andQueryBuilder = AndQueryBuilder()
+            andQueryBuilder.queryBuilders.addAll(queryBuilders)
+            return andQueryBuilder.toSql(params)
+        }
+        return queryBuilders[0].toSql(params);
+    }
+
 }

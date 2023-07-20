@@ -34,6 +34,29 @@ class InValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuil
         }
     }
 
+    override fun toSql(params: MutableMap<Int, Any>): String {
+//        return "${field} in (" + values.reduce { a, b ->
+//            var sb = StringBuilder()
+//            return@reduce sb.append(if (a is String) "'${a}'" else a)
+//                .append(",")
+//                .append(if (b is String) "'${b}'" else b)
+//                .toString()
+//        } + ")"
+        var inSql = StringBuilder()
+        inSql.append("$field in (")
+
+        for (i in values.indices) {
+            var id = params.size + 1
+            params[id] = values[i]
+            inSql.append("\${${id}}")
+            if (i != values.size - 1) {
+                inSql.append(",")
+            }
+        }
+        inSql.append(")")
+        return inSql.toString()
+    }
+
     override fun toString(): String {
         return "${field} in (" + values.reduce { a, b ->
             var sb = StringBuilder()

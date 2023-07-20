@@ -1,5 +1,6 @@
 package com.querydsl.comparison
 
+import cn.hutool.core.lang.UUID
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.querydsl.ParseException
@@ -31,6 +32,12 @@ class EqValueQueryBuilder(field:String, value:Any): ValueQueryBuilder() {
             }
             throw ParseException("$NAME 操作符只支持string、number")
         }
+    }
+
+    override fun toSql(params: MutableMap<Int, Any>): String {
+        var id = params.size + 1
+        params[id] = value
+        return "$field = \${${id}}"
     }
 
     override fun toString(): String {
