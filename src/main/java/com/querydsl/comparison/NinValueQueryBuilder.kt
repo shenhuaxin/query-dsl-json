@@ -36,7 +36,7 @@ class NinValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBui
 
     override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var inSql = StringBuilder()
-        inSql.append("${DbConfig.FIELD_SAFE}$field${DbConfig.FIELD_SAFE} not in (")
+        inSql.append("${DbConfig.FIELD_SAFE_UNQUOTE}$field${DbConfig.FIELD_SAFE_UNQUOTE} not in (")
         for (i in values.indices) {
             var id = params.size + 1
             params[id] = values[i]

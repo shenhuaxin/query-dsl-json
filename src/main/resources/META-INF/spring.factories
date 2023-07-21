@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.querydsl.spring.DbConfig\
+  com.querydsl.spring.DynamicSqlConfiguration\
+  com.querydsl.spring.DynamicSqlQuery

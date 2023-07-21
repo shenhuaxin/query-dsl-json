@@ -35,7 +35,7 @@ class GtValueQueryBuilder(field:String, value:Any): ValueQueryBuilder() {
     override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var id = params.size + 1
         params[id] = value
-        return "${DbConfig.FIELD_SAFE}$field${DbConfig.FIELD_SAFE} > #{${id}}"
+        return "${DbConfig.FIELD_SAFE_UNQUOTE}$field${DbConfig.FIELD_SAFE_UNQUOTE} > #{${id}}"
     }
 
     override fun toString(): String {

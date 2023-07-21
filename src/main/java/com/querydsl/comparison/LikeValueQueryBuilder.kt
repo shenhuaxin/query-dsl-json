@@ -1,6 +1,5 @@
 package com.querydsl.comparison
 
-import cn.hutool.core.lang.UUID
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.querydsl.ParseException
@@ -38,7 +37,7 @@ class LikeValueQueryBuilder(field:String, value:Any): ValueQueryBuilder() {
     override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var id = params.size + 1
         params[id] = value
-        return "${DbConfig.FIELD_SAFE}$field${DbConfig.FIELD_SAFE} like #{${id}}"
+        return "${DbConfig.FIELD_SAFE_UNQUOTE}$field${DbConfig.FIELD_SAFE_UNQUOTE} like #{${id}}"
     }
 
     override fun toString(): String {
