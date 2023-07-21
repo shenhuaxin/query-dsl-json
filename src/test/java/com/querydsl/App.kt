@@ -1,7 +1,7 @@
 package com.querydsl
 
-import com.querydsl.spring.DynamicSqlQuery
 import com.querydsl.mybatis.DynamicSqlMapper
+import com.querydsl.spring.DynamicSqlQuery
 import org.apache.ibatis.io.Resources
 import org.apache.ibatis.session.SqlSessionFactoryBuilder
 import java.io.File
@@ -30,7 +30,7 @@ object App {
                 params.put(entry.key.toString(), entry.value)
             }
 
-            var result = DynamicSqlQuery.query(sqlSession, toSql, params);
+            var result = DynamicSqlQuery().query(sqlSession, toSql, params);
 //            var mapper = sqlSession.getMapper(DynamicSqlMapper::class.java)
 //            params.put("sql", toSql)
 //            for (entry in map) {
