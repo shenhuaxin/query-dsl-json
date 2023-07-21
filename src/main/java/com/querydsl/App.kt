@@ -2,6 +2,7 @@ package com.querydsl
 
 import com.querydsl.db.QueryExecutor
 import com.querydsl.db.ResultSetHandler
+import com.querydsl.mybatis.DynamicSqlMapper
 import org.apache.ibatis.io.Resources
 import org.apache.ibatis.session.SqlSessionFactoryBuilder
 import java.io.File
@@ -19,15 +20,27 @@ object App {
             val ssfb = SqlSessionFactoryBuilder()
             val ssf = ssfb.build(`in`)
             val sqlSession = ssf.openSession()
-            val connection = sqlSession.connection
+
+            var params = mutableMapOf<String, Any>();
 
             val content = File("/Users/shx/code/github/query-dsl-json/src/main/resources/query.json").readText()
             val parse = SearchBuilder().parse(content)
             var map = mutableMapOf<Int, Any>()
             var toSql = parse.toSql(map)
-            var resultSet = QueryExecutor().query(connection, toSql, map)
 
-            var result = resultSet?.let { ResultSetHandler().toList(it) }
+            var mapper = sqlSession.getMapper(DynamicSqlMapper::class.java)
+            params.put("sql", toSql)
+            for (entry in map) {
+                params.put(entry.key.toString(), entry.value)
+            }
+            var result = mapper.listBySql(params)
+
+//            val connection = sqlSession.connection
+//
+
+//            var resultSet = QueryExecutor().query(connection, toSql, map)
+//
+//            var result = resultSet?.let { ResultSetHandler().toList(it) }
             println(result)
         } catch (e:Exception) {
             e.printStackTrace()

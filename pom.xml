@@ -73,6 +73,10 @@
             <artifactId>db2jcc4</artifactId>
             <version>3.71.22</version>
         </dependency>
+        <dependency>
+            <groupId></groupId>
+            <artifactId></artifactId>
+        </dependency>
     </dependencies>
 
     <build>

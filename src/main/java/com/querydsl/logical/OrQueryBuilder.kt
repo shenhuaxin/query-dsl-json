@@ -24,8 +24,8 @@ class OrQueryBuilder : CompositeCondition() {
         }
     }
 
-    override fun toSql(params: MutableMap<Int, Any>): String {
-        return "("+ queryBuilders.map { it.toSql(params) }.reduce{ a, b -> "$a or $b" } + ")"
+    override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
+        return "("+ queryBuilders.map { it.toPrepareStatementSql(params) }.reduce{ a, b -> "$a or $b" } + ")"
     }
 
     override fun toString(): String {

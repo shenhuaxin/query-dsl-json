@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.querydsl.ParseException
 import com.querydsl.ValueQueryBuilder
+import com.querydsl.spring.DbConfig
 import kotlin.text.StringBuilder
 
 class InValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuilder() {
@@ -34,7 +35,7 @@ class InValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuil
         }
     }
 
-    override fun toSql(params: MutableMap<Int, Any>): String {
+    override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
 //        return "${field} in (" + values.reduce { a, b ->
 //            var sb = StringBuilder()
 //            return@reduce sb.append(if (a is String) "'${a}'" else a)
@@ -43,12 +44,12 @@ class InValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuil
 //                .toString()
 //        } + ")"
         var inSql = StringBuilder()
-        inSql.append("$field in (")
+        inSql.append("${DbConfig.FIELD_SAFE}$field${DbConfig.FIELD_SAFE} in (")
 
         for (i in values.indices) {
             var id = params.size + 1
             params[id] = values[i]
-            inSql.append("\${${id}}")
+            inSql.append("#{${id}}")
             if (i != values.size - 1) {
                 inSql.append(",")
             }

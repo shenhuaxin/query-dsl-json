@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.querydsl.ParseException
 import com.querydsl.ValueQueryBuilder
+import com.querydsl.spring.DbConfig
 
 class NinValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuilder() {
     val field: String;
@@ -33,13 +34,13 @@ class NinValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBui
         }
     }
 
-    override fun toSql(params: MutableMap<Int, Any>): String {
+    override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var inSql = StringBuilder()
-        inSql.append("$field not in (")
+        inSql.append("${DbConfig.FIELD_SAFE}$field${DbConfig.FIELD_SAFE} not in (")
         for (i in values.indices) {
             var id = params.size + 1
             params[id] = values[i]
-            inSql.append("\${${id}}")
+            inSql.append("#{${id}}")
             if (i != values.size - 1) {
                 inSql.append(",")
             }

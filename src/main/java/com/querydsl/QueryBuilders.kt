@@ -37,9 +37,9 @@ class QueryBuilders {
         if (queryBuilders.size > 1) {
             var andQueryBuilder = AndQueryBuilder()
             andQueryBuilder.queryBuilders.addAll(queryBuilders)
-            return andQueryBuilder.toSql(params)
+            return andQueryBuilder.toPrepareStatementSql(params)
         }
-        return queryBuilders[0].toSql(params);
+        return queryBuilders[0].toPrepareStatementSql(params);
     }
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.querydsl.ParseException
 import com.querydsl.ValueQueryBuilder
+import com.querydsl.spring.DbConfig
 
 class LtValueQueryBuilder (field:String, value:Any): ValueQueryBuilder() {
     val field: String
@@ -32,10 +33,10 @@ class LtValueQueryBuilder (field:String, value:Any): ValueQueryBuilder() {
         }
     }
 
-    override fun toSql(params: MutableMap<Int, Any>): String {
+    override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var id = params.size + 1
         params[id] = value
-        return "$field < \${${id}}"
+        return "${DbConfig.FIELD_SAFE}$field${DbConfig.FIELD_SAFE} < #{${id}}"
     }
 
     override fun toString(): String {

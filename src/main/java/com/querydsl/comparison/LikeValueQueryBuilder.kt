@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.querydsl.ParseException
 import com.querydsl.ValueQueryBuilder
+import com.querydsl.spring.DbConfig
 
 class LikeValueQueryBuilder(field:String, value:Any): ValueQueryBuilder() {
 
@@ -34,10 +35,10 @@ class LikeValueQueryBuilder(field:String, value:Any): ValueQueryBuilder() {
         }
     }
 
-    override fun toSql(params: MutableMap<Int, Any>): String {
+    override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var id = params.size + 1
         params[id] = value
-        return "$field like \${${id}}"
+        return "${DbConfig.FIELD_SAFE}$field${DbConfig.FIELD_SAFE} like #{${id}}"
     }
 
     override fun toString(): String {
