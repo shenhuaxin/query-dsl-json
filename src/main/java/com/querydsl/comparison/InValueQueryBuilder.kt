@@ -44,7 +44,7 @@ class InValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuil
 //                .toString()
 //        } + ")"
         var inSql = StringBuilder()
-        inSql.append("${DbConfig.getFieldSafeDelimiter()}$field${DbConfig.getFieldSafeDelimiter()} in (")
+        inSql.append("${getSafeField(field)} in (")
 
         for (i in values.indices) {
             var id = params.size + 1
@@ -59,7 +59,7 @@ class InValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuil
     }
 
     override fun toString(): String {
-        return "${field} in (" + values.reduce { a, b ->
+        return "${getSafeField(field)} in (" + values.reduce { a, b ->
             var sb = StringBuilder()
             return@reduce sb.append(if (a is String) "'${a}'" else a)
                 .append(",")

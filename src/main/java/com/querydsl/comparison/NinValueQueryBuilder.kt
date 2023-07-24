@@ -36,7 +36,7 @@ class NinValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBui
 
     override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var inSql = StringBuilder()
-        inSql.append("${DbConfig.getFieldSafeDelimiter()}$field${DbConfig.getFieldSafeDelimiter()} not in (")
+        inSql.append("${getSafeField(field)} not in (")
         for (i in values.indices) {
             var id = params.size + 1
             params[id] = values[i]
@@ -50,7 +50,7 @@ class NinValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBui
     }
 
     override fun toString(): String {
-        return "${field} not in (" + values.reduce { a, b ->
+        return "${getSafeField(field)} not in (" + values.reduce { a, b ->
             var sb = StringBuilder()
             return@reduce sb.append(if (a is String) "'${a}'" else a)
                 .append(",")

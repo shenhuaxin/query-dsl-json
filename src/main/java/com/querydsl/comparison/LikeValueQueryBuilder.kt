@@ -37,10 +37,10 @@ class LikeValueQueryBuilder(field:String, value:Any): ValueQueryBuilder() {
     override fun toPrepareStatementSql(params: MutableMap<Int, Any>): String {
         var id = params.size + 1
         params[id] = value
-        return "${DbConfig.getFieldSafeDelimiter()}$field${DbConfig.getFieldSafeDelimiter()} like #{${id}}"
+        return "${getSafeField(field)} like #{${id}}"
     }
 
     override fun toString(): String {
-        return "${field} like '${value}'"
+        return "${getSafeField(field)} like '${value}'"
     }
 }

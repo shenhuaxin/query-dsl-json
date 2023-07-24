@@ -1,14 +1,19 @@
 package com.querydsl
 
+import cn.hutool.db.DbUtil
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.querydsl.logical.AndQueryBuilder
 import com.querydsl.comparison.EqValueQueryBuilder
 import com.querydsl.comparison.InValueQueryBuilder
+import com.querydsl.spring.DbConfig
 
 open abstract class ValueQueryBuilder :IQueryBuilder{
 
 
+    fun getSafeField(fieldName: String): String {
+        return DbConfig.getFieldSafeDelimiter()+fieldName+DbConfig.getFieldSafeDelimiter();
+    }
 
     companion object {
         fun parseContent(fieldName: String, parser: JsonParser):IQueryBuilder {
