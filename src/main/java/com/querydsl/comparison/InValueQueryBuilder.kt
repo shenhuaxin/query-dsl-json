@@ -44,7 +44,7 @@ class InValueQueryBuilder(fieldName: String, values: List<Any>) : ValueQueryBuil
 //                .toString()
 //        } + ")"
         var inSql = StringBuilder()
-        inSql.append("${DbConfig.FIELD_SAFE_UNQUOTE}$field${DbConfig.FIELD_SAFE_UNQUOTE} in (")
+        inSql.append("${DbConfig.getFieldSafeDelimiter()}$field${DbConfig.getFieldSafeDelimiter()} in (")
 
         for (i in values.indices) {
             var id = params.size + 1

@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder
 import java.io.File
 
 
-object App {
+object Main {
     @JvmStatic
     fun main(args: Array<String>) {
         val resource = "mybatis-config.xml"

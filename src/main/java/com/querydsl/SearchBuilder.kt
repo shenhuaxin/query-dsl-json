@@ -66,13 +66,14 @@ class SearchBuilder {
         if (table == null || table == "") {
             return "from T_ADS_DIM_APP_DATA"
         }
-        return "from ${table}"
+        return "from " + StrUtil.cleanBlank(table)
     }
 
     private fun toSelect(): String {
-        if (select == null || select == "") {
+        if (StrUtil.isBlank(select)) {
             return "select *"
         }
-        return "select ${select}"
+        var selectField = select?.split(",")?.map { StrUtil.cleanBlank(it) }?.reduce { a, b -> "$a, $b" }
+        return "select $selectField"
     }
 }
