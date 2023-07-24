@@ -1,6 +1,7 @@
 package com.querydsl.spring;
 
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -22,7 +23,9 @@ public class DbConfig implements InitializingBean {
     }
 
     public void setFieldDelimiter(String fieldDelimiter) {
-        this.fieldDelimiter = fieldDelimiter;
+        if (StrUtil.isNotBlank(fieldDelimiter)) {
+            this.fieldDelimiter = fieldDelimiter;
+        }
     }
 
     public String getFieldDelimiter() {
