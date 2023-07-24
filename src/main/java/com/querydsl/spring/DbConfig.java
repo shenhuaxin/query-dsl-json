@@ -10,12 +10,13 @@ public class DbConfig implements InitializingBean {
 
     private static String FIELD_SAFE_DELIMITER = "\"";
 
-//    @Value("${querydsl.db.fieldDelimiter}")
     public String fieldDelimiter;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        FIELD_SAFE_DELIMITER = fieldDelimiter;
+        if (fieldDelimiter != null) {
+            FIELD_SAFE_DELIMITER = fieldDelimiter;
+        }
     }
 
     public static String getFieldSafeDelimiter() {
@@ -23,9 +24,7 @@ public class DbConfig implements InitializingBean {
     }
 
     public void setFieldDelimiter(String fieldDelimiter) {
-        if (StrUtil.isNotBlank(fieldDelimiter)) {
-            this.fieldDelimiter = fieldDelimiter;
-        }
+        this.fieldDelimiter = fieldDelimiter;
     }
 
     public String getFieldDelimiter() {
