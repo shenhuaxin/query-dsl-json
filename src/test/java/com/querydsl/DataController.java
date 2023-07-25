@@ -1,6 +1,8 @@
 package com.querydsl;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.querydsl.db.QueryExecutor;
+import com.querydsl.spring.DbConfig;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +43,12 @@ public class DataController {
 
         }
         return new ArrayList();
+    }
+
+    @PostMapping("querydsl/getsql")
+    public String querydslGetSql(@RequestBody String requestParam) {
+        SearchBuilder searchBuilder = new SearchBuilder();
+        String sql = searchBuilder.parse(requestParam).toString();
+        return (sql);
     }
 }

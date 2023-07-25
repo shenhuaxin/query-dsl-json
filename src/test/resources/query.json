@@ -1,8 +1,8 @@
 {
   "from": "T_ADS_DIM_APP_DATA",
   "query": {
-      "IND_CODE": {
-        "$like": ["CH002007006012", "CH002007006013"]
+    "IND_CODE": {
+      "$like": "CH002007006013"
     }
   }
 }

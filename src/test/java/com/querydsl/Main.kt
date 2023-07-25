@@ -18,10 +18,10 @@ object Main {
 
             var params = mutableMapOf<String, Any>();
 
-            val content = File("/Users/shx/code/github/query-dsl-json/src/main/resources/query.json").readText()
+            val content = File("/Users/shx/code/github/query-dsl-json/src/test/resources/query.json").readText()
             val parse = SearchBuilder().parse(content)
             var map = mutableMapOf<Int, Any>()
-            var toSql = parse.toSql(map)
+            var toSql = parse.toString()
 
             ssf.configuration.mapperRegistry.addMapper(DynamicSqlMapper::class.java)
             val sqlSession = ssf.openSession()

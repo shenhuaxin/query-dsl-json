@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken;
+import com.querydsl.spring.DbConfig
 
 class SearchBuilder {
 
@@ -66,14 +67,14 @@ class SearchBuilder {
         if (table == null || table == "") {
             return "from T_ADS_DIM_APP_DATA"
         }
-        return "from " + StrUtil.cleanBlank(table)
+        return "from " + DbConfig.getFieldSafeDelimiter() + StrUtil.trim(table) + DbConfig.getFieldSafeDelimiter()
     }
 
     private fun toSelect(): String {
         if (StrUtil.isBlank(select)) {
             return "select *"
         }
-        var selectField = select?.split(",")?.map { StrUtil.cleanBlank(it) }?.reduce { a, b -> "$a, $b" }
+        var selectField = select?.split(",")?.map { DbConfig.getFieldSafeDelimiter() + StrUtil.trim(it) + DbConfig.getFieldSafeDelimiter() }?.reduce { a, b -> "$a, $b" }
         return "select $selectField"
     }
 }
