@@ -10,14 +10,20 @@ class OrQueryBuilder : CompositeCondition() {
     companion object {
         fun parseContent(fieldName: String, parser: JsonParser): OrQueryBuilder {
             var token = parser.currentToken
-            if (token != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
-                throw ParseException("Expected [" + JsonToken.START_OBJECT + "] but found [" + token + "]");
+            if (token != JsonToken.START_ARRAY && parser.nextToken() != JsonToken.START_ARRAY) {
+                throw ParseException("Expected [" + JsonToken.START_ARRAY + "] but found [" + token + "]");
             }
             var orQueryBuilder = OrQueryBuilder()
-            while (parser.nextToken().also { token = it } != JsonToken.END_OBJECT) {
-                if (token == JsonToken.FIELD_NAME) {
-                    var queryBuilder = SearchModule.lookup(parser.currentName).parse(parser.currentName, parser)
-                    orQueryBuilder.queryBuilders.add(queryBuilder)
+            while (parser.nextToken().also { token = it } != JsonToken.END_ARRAY) {
+                token = parser.currentToken;
+                if (token != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
+                    throw ParseException("Expected [" + JsonToken.START_OBJECT + "] but found [" + token + "]");
+                }
+                while (parser.nextToken().also { token = it } != JsonToken.END_OBJECT) {
+                    if (token == JsonToken.FIELD_NAME) {
+                        var queryBuilder = SearchModule.lookup(parser.currentName).parse(parser.currentName, parser)
+                        orQueryBuilder.queryBuilders.add(queryBuilder)
+                    }
                 }
             }
             return orQueryBuilder

@@ -23,6 +23,8 @@ object Main {
             var map = mutableMapOf<Int, Any>()
             var toSql = parse.toString()
 
+            println(toSql)
+
             ssf.configuration.mapperRegistry.addMapper(DynamicSqlMapper::class.java)
             val sqlSession = ssf.openSession()
 
