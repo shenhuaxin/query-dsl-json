@@ -57,9 +57,9 @@ class SearchBuilder {
 
     fun toSql(params: MutableMap<Int, Any>): String {
         if (queryBuilders != null) {
-            return "${toSelect()} ${toFrom()} where ${queryBuilders?.toSql(params)}"
+            return "${toSelect()} ${toFrom()} where ${queryBuilders?.toSql(params)} limit 10"
         } else {
-            return "${toSelect()} ${toFrom()}"
+            return "${toSelect()} ${toFrom()} limit 10"
         }
     }
 
