@@ -36,13 +36,17 @@ select `ID`, `IND_VALUE` from `T_ADS_DIM_APP_DATA` where (`IND_CODE` = 'CH002007
   "select": "ID, IND_VALUE",
   "from": "T_ADS_DIM_APP_DATA",
   "query": {
-    "$or": {
-      "$and": {
-        "IND_CODE": "CH002007006013",
-        "DATA_TYPE": 1
+    "$or": [
+      {
+        "$and": {
+          "IND_CODE": "CH002007006013",
+          "DATA_TYPE": 1
+        }
       },
-      "DATA_TYPE": 2
-    }
+      {
+        "DATA_TYPE": 2
+      }
+    ]
   }
 }
 
